@@ -1,0 +1,25 @@
+------------
+BlastSummary
+------------
+
+BlastSummary takes a set of sequences in fasta format and runs them through blast against NCBI's nr. It outputs an sqlite database containing a summary of the results.
+
+The fasta file may contain multiple sequences. For each sequence, blast will be
+run and a row will be added to the database.
+
+Data is stored in the BlastSummary table, with this schema:
+    id:             (Integer) Primary Key
+    query_id:       (Text)    Query sequence identifier
+    query_length:   (Integer) Length of query sequence
+    num_alignments: (Integer) Total number of alignments returned
+    total_hsps:     (Integer) Total number of hsps across all alignments
+    num_hsps:       (Integer) Number of hsps in best alignment
+    best_score:     (Real)    Score of best hsp
+    best_expect:    (Real)    Expect of best hsp
+    best_align_id:  (Text)    Hit identifier of the top scoring alignment
+    best_align_def: (Text)    Hit definition of the top scoring alignment
+    
+The best alignment and best hsp are found by looking for the hsp with the highest score and lowest expect, in that order. 
+
+usage: ./blastsummary.py myquery.fasta results.db
+
